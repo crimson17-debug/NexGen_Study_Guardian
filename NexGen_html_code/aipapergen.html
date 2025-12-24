@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Paper Generator | NexGen</title>
 
+<script src="config.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -110,7 +111,7 @@ body {
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 0 15px var(--primary-glow);
     overflow: hidden; 
-    color: white; /* Added for fallback icon if no image */
+    color: white; 
 }
 .logo-icon i { font-size: 18px; }
 
@@ -246,7 +247,7 @@ body {
     background: linear-gradient(to bottom, transparent, var(--bg-hover));
 }
 
-.msg { padding: 12px 16px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; position: relative; animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.msg { padding: 12px 16px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; position: relative; animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); word-wrap: break-word; }
 @keyframes popIn { from { opacity: 0; transform: translateY(10px) scale(0.9); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 .msg-user {
@@ -279,6 +280,7 @@ body {
     cursor: pointer; transition: transform 0.2s;
 }
 .send-btn:hover { transform: scale(1.1); }
+.send-btn:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; }
 
 /* Typing Indicator Animation */
 .typing-indicator {
@@ -323,6 +325,7 @@ body {
 .slider-value { font-weight: 700; color: var(--primary); min-width: 30px; }
 .gen-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--primary), #4f46e5); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 15px var(--primary-glow); }
 .gen-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--primary-glow); }
+.gen-btn:disabled { background: var(--text-muted); cursor: not-allowed; transform: none; box-shadow: none; }
 
 /* PREVIEW PANEL */
 .preview-panel {
@@ -501,22 +504,22 @@ body {
         <span class="logo-text">NexGen</span>
     </div>
     <div class="sidebar-divider"></div>
-    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
     
     <div class="section-label">Academics</div>
     <a href="#" class="nav-item active"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
-    <a href="syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
     
     <div class="section-label">Community</div>
-    <a href="notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
-    <a href="channels.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>    
+    <a href="#" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>    
     <div class="section-label">Tools</div>
-    <a href="editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
     
     <div class="section-label">Database</div>
-    <a href="archive.html" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
-    <a href="syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
-    <a href="notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="#" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
 </div>
 
 <div class="main-layout">
@@ -574,7 +577,7 @@ body {
                     </div>
                 </div>
                 
-                <button class="gen-btn" onclick="generatePaper()">
+                <button class="gen-btn" id="generateBtn" onclick="generatePaper()">
                     <i class="fa-solid fa-bolt"></i> Generate Paper
                 </button>
             </div>
@@ -600,7 +603,7 @@ body {
 
             <div class="loading-overlay" id="loadingOverlay">
                 <div class="loader-spinner"></div>
-                <p>Constructing Exam Paper...</p>
+                <p>Constructing Exam Paper with Gemini...</p>
             </div>
         </div>
 
@@ -628,7 +631,7 @@ body {
             <div class="chat-footer">
                 <div class="chat-input-container">
                     <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
-                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                    <button class="send-btn" id="chatSendBtn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
                 </div>
             </div>
         </div>
@@ -637,6 +640,52 @@ body {
 </div>
 
 <script>
+    // --- GOOGLE GEMINI API SETUP ---
+    const apiKey = "config.API_KEY"; // The environment will provide this automatically in the preview.
+
+    async function callGeminiAPI(prompt, systemInstruction = "") {
+        // 1. Check if API Key is loaded
+        if (!apiKey || apiKey.includes("paste_your")) {
+            alert("CONFIGURATION ERROR: API Key is missing or invalid.\nCheck config.js");
+            return null;
+        }
+
+        // 2. Use the CORRECT model (Gemini 1.5 Flash)
+        const modelName = "gemini-2.5-flash"; 
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
+        
+        const payload = {
+            contents: [{ parts: [{ text: prompt }] }],
+            systemInstruction: { parts: [{ text: systemInstruction }] }
+        };
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+            
+            // 3. Catch API Errors and ALERT them
+            if (!response.ok) {
+                const errorData = await response.json();
+                const errorMessage = errorData.error ? errorData.error.message : "Unknown Error";
+                alert(`GOOGLE API ERROR:\n${errorMessage}`); // <--- THIS WILL TELL US THE PROBLEM
+                console.error("Full Error Details:", errorData);
+                throw new Error(errorMessage);
+            }
+            
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+
+        } catch (error) {
+            console.error("Gemini API Error:", error);
+            return null;
+        }
+    }
+
+
+
     /* THEME TOGGLE */
     const toggleBtn = document.getElementById('theme-toggle');
     const body = document.body;
@@ -650,14 +699,14 @@ body {
         }
     });
 
-    /* NAV HIGHLIGHT (Simple logic for this page) */
+    /* NAV HIGHLIGHT */
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active')); this.classList.add('active');
         });
     });
 
-    /* PDF & PRINT (Paper Gen Specific) */
+    /* PDF & PRINT */
     function printPaper() {
         const content = document.getElementById('paperContent').innerText;
         if(content.includes("Enter details")) { alert("Please generate a paper first!"); return; }
@@ -678,138 +727,115 @@ body {
         html2pdf().set(opt).from(element).save();
     }
 
-    /* GENERATION LOGIC (Paper Gen Specific) */
-    function generatePaper() {
+    /* GENERATION LOGIC (Now using Gemini API) */
+    async function generatePaper() {
         const topic = document.getElementById('topicInput').value;
         const difficulty = document.getElementById('difficultySelect').value;
         const type = document.getElementById('typeSelect').value;
         const marks = document.getElementById('marksValue').innerText;
         const overlay = document.getElementById('loadingOverlay');
         const paper = document.getElementById('paperContent');
+        const btn = document.getElementById('generateBtn');
 
         if(!topic) { alert("Please enter a topic!"); return; }
 
+        // UI State: Loading
         overlay.style.display = 'flex';
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating...';
 
-        setTimeout(() => {
-            overlay.style.display = 'none';
-            const date = new Date().toLocaleDateString();
+        // Constructing the Prompt for Gemini
+        const date = new Date().toLocaleDateString();
+        const systemPrompt = "You are an expert academic assistant. Your task is to generate valid HTML code for an exam paper.";
+        
+        const userPrompt = `
+            Create a professional exam paper for the topic: "${topic}".
+            Difficulty Level: ${difficulty}.
+            Question Types: ${type}.
+            Total Marks: ${marks}.
+
+            Strictly follow this HTML structure. Do NOT return markdown code blocks (like \`\`\`html), just the raw HTML content compatible with the following CSS classes:
+            - 'section-header' for Part titles (e.g., Part A).
+            - 'question-row' for each question container.
+            - 'q-num' for question number (e.g., 1.).
+            - 'q-text' for the question text.
+            - 'q-marks' for marks (e.g., [2]).
+            - 'mcq-options' for Multiple Choice Options, containing <span> elements for (a), (b), etc.
             
-            // Build Question Blocks based on format
-            let contentHtml = `
-                <div class="exam-header">
-                    <div class="university-name">Technical Institute of Technology</div>
-                    <div class="exam-title">Mid-Semester Examination: ${topic}</div>
-                </div>
-
-                <table class="meta-table">
-                    <tr>
-                        <td>Date: ${date}</td>
-                        <td class="meta-right">Max Marks: ${marks}</td>
-                    </tr>
-                    <tr>
-                        <td>Duration: 90 Minutes</td>
-                        <td class="meta-right">Level: ${difficulty}</td>
-                    </tr>
-                </table>
-
-                <div style="font-size: 10pt; font-style: italic; border-bottom: 1px solid #000; margin-bottom: 20px; padding-bottom: 5px;">
-                    <strong>Instructions:</strong> All questions are compulsory. Figures to the right indicate full marks.
-                </div>
-            `;
-
-            if (type !== 'theory') {
-                contentHtml += `
-                <div class="section-header">Part A: Multiple Choice Questions</div>
-                
-                <div class="question-row">
-                    <div class="q-num">1.</div>
-                    <div class="q-text">
-                        Which of the following best describes the core principle of ${topic}?
-                        <div class="mcq-options">
-                            <span>(a) Principle of Superposition</span>
-                            <span>(b) Law of Conservation</span>
-                            <span>(c) Variable Dynamics</span>
-                            <span>(d) Static Equilibrium</span>
-                        </div>
+            Example format:
+            <div class="section-header">Part A: Multiple Choice Questions</div>
+            <div class="question-row">
+                <div class="q-num">1.</div>
+                <div class="q-text">Question here?
+                    <div class="mcq-options">
+                        <span>(a) Option 1</span>
+                        <span>(b) Option 2</span>
                     </div>
-                    <div class="q-marks">[2]</div>
                 </div>
+                <div class="q-marks">[2]</div>
+            </div>
 
-                <div class="question-row">
-                    <div class="q-num">2.</div>
-                    <div class="q-text">
-                        Identify the incorrect statement regarding the application of ${topic} in real-world systems.
-                        <div class="mcq-options">
-                            <span>(a) Increases efficiency</span>
-                            <span>(b) Reduces latency</span>
-                            <span>(c) Is always linear</span>
-                            <span>(d) Requires calibration</span>
-                        </div>
-                    </div>
-                    <div class="q-marks">[2]</div>
-                </div>
-                `;
-            }
+            Generate enough questions to sum up to exactly ${marks} marks.
+            If type is 'mixed', include Part A (MCQ) and Part B (Theory).
+            If type is 'mcq', only generate MCQs.
+            If type is 'theory', only generate descriptive questions.
+            Ensure the content is academic and relevant to ${topic}.
+        `;
 
-            if (type !== 'mcq') {
-                contentHtml += `
-                <div class="section-header">Part B: Descriptive Questions</div>
+        const generatedContent = await callGeminiAPI(userPrompt, systemPrompt);
 
-                <div class="question-row">
-                    <div class="q-num">3.</div>
-                    <div class="q-text">
-                        Define the fundamental concepts of ${topic}. Explain how it interacts with external environmental factors.
-                    </div>
-                    <div class="q-marks">[5]</div>
-                </div>
+        // Header Boilerplate
+        const headerHtml = `
+            <div class="exam-header">
+                <div class="university-name">Technical Institute of Technology</div>
+                <div class="exam-title">Mid-Semester Examination: ${topic}</div>
+            </div>
 
-                <div class="question-row">
-                    <div class="q-num">4.</div>
-                    <div class="q-text">
-                        Differentiate between method A and method B typically used in ${topic} analysis. Provide a diagrammatic representation if applicable.
-                    </div>
-                    <div class="q-marks">[5]</div>
-                </div>
+            <table class="meta-table">
+                <tr>
+                    <td>Date: ${date}</td>
+                    <td class="meta-right">Max Marks: ${marks}</td>
+                </tr>
+                <tr>
+                    <td>Duration: 90 Minutes</td>
+                    <td class="meta-right">Level: ${difficulty}</td>
+                </tr>
+            </table>
 
-                <div class="question-row">
-                    <div class="q-num">5.</div>
-                    <div class="q-text">
-                        Derive the equation for stability in the context of ${topic}. Assume standard initial conditions and neglect friction.
-                    </div>
-                    <div class="q-marks">[8]</div>
-                </div>
+            <div style="font-size: 10pt; font-style: italic; border-bottom: 1px solid #000; margin-bottom: 20px; padding-bottom: 5px;">
+                <strong>Instructions:</strong> All questions are compulsory. Figures to the right indicate full marks.
+            </div>
+        `;
 
-                <div class="question-row">
-                    <div class="q-num">6.</div>
-                    <div class="q-text">
-                        <strong>Case Study:</strong> Given a scenario where system load increases by 15%, calculate the resultant impact on output efficiency using ${topic} principles. Show all steps clearly.
-                    </div>
-                    <div class="q-marks">[10]</div>
-                </div>
-                `;
-            }
+        const footerHtml = `<div style="text-align:center; margin-top:40px; font-weight:bold;">*** END OF PAPER ***</div>`;
 
-            contentHtml += `<div style="text-align:center; margin-top:40px; font-weight:bold;">*** END OF PAPER ***</div>`;
-            
-            paper.innerHTML = contentHtml;
-            
-        }, 1500);
+        if (generatedContent) {
+            // Clean up if Gemini wrapped it in markdown code blocks despite instructions
+            let cleanContent = generatedContent.replace(/```html/g, '').replace(/```/g, '');
+            paper.innerHTML = headerHtml + cleanContent + footerHtml;
+        } else {
+            alert("Failed to generate paper. Please try again.");
+        }
+
+        // Reset UI
+        overlay.style.display = 'none';
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-bolt"></i> Generate Paper';
     }
 
-    /* --- UPDATED CHATBOT LOGIC --- */
+    /* --- CHATBOT LOGIC (Now using Gemini API) --- */
     const widget = document.getElementById('ai-widget');
     const chatBox = document.getElementById('chat-box');
     const chatInput = document.getElementById('chat-input');
+    const sendBtn = document.getElementById('chatSendBtn');
     let firstOpen = true;
 
     function toggleChat() {
         widget.classList.toggle('expanded');
         if(widget.classList.contains('expanded') && firstOpen) {
             firstOpen = false;
-            // Add greeting automatically
             setTimeout(() => {
-                addMessage("ai", "Hi there! I can help you structure your exam paper. What topic are you working on?");
+                addMessage("ai", "Hi there! I'm powered by Google Gemini. I can help you structure your exam paper or explain concepts. What topic are you working on?");
             }, 500);
         }
     }
@@ -818,29 +844,45 @@ body {
         if(e.key === 'Enter') sendMessage();
     }
 
-    function sendMessage() {
+    async function sendMessage() {
         const text = chatInput.value.trim();
         if(!text) return;
         
         // 1. Add User Message
         addMessage("user", text);
         chatInput.value = '';
+        chatInput.disabled = true;
+        sendBtn.disabled = true;
 
         // 2. Show Typing Indicator
         const typingId = showTyping();
 
-        // 3. Simulate AI Response (Delay)
-        setTimeout(() => {
-            removeTyping(typingId);
-            const topic = document.getElementById('topicInput').value || "your topic";
-            addMessage("ai", "I've analyzed the request for " + topic + ". I suggest including a mix of conceptual and analytical questions.");
-        }, 1500);
+        // 3. Call Gemini API
+        const systemPrompt = "You are a helpful teaching assistant helping a user create exam papers. Keep answers concise and helpful.";
+        const responseText = await callGeminiAPI(text, systemPrompt);
+
+        // 4. Remove Typing & Add AI Message
+        removeTyping(typingId);
+        
+        if (responseText) {
+            addMessage("ai", responseText);
+        } else {
+            addMessage("ai", "Sorry, I'm having trouble connecting to the server right now.");
+        }
+
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.focus();
     }
 
     function addMessage(sender, text) {
         const div = document.createElement('div');
         div.className = `msg msg-${sender}`;
-        div.textContent = text;
+        
+        // Simple markdown parsing for bold text (**text**)
+        const formattedText = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+        div.innerHTML = formattedText;
+        
         chatBox.appendChild(div);
         scrollToBottom();
     }
