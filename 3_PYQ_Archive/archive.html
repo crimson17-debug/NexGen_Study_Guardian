@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PYQ Archive | NexGen</title>
+
+
+<link rel="stylesheet" href="archive.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="sidebar" id="mainSidebar">
+    <div class="logo-container">
+        <div class="logo-icon"><img src="NexGen-logo.jpg" alt="Logo" class="logo-img"></div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="\1_Dashboard\index.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    <div class="section-label">Academics</div>
+    <a href="\2_AIPaperGenerator\aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="\8_Syllabus\syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    <div class="section-label">Community</div>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="\4_Branch_Channels\channels.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    <div class="section-label">Tools</div>
+    <a href="\5_Code_Editor\editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    <div class="section-label">Database</div>
+    <a href="\3_PYQ_Archive\archive.html" class="nav-item active"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="\7_Syllabus_List\syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    
+    <div class="top-bar">
+        <div style="display: flex; align-items: center;">
+            <button class="mobile-menu-btn" onclick="toggleMainSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Global Search...">
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle" title="Switch Theme"><i class="fa-solid fa-moon"></i></button>
+            <button class="action-btn"><i class="fa-regular fa-bell"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="archive-container">
+        
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                <div class="stat-info">
+                    <h3>1,240</h3>
+                    <p>Total Papers</p>
+                </div>
+                <i class="fa-solid fa-folder-open stat-bg-icon"></i>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color:#10b981;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <div class="stat-info">
+                    <h3>24</h3>
+                    <p>Added this week</p>
+                </div>
+                <i class="fa-solid fa-calendar-check stat-bg-icon"></i>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border:none;">
+                <div class="stat-info">
+                    <h3 style="font-size:1.4rem;">Contribute</h3>
+                    <p style="color:rgba(255,255,255,0.8);">Upload papers to earn karma points.</p>
+                </div>
+                <button class="action-btn" style="background:rgba(255,255,255,0.2); color:white; border:none;" onclick="openModal()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-large-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-large-icon"></i>
+                <input type="text" class="search-large" id="searchInput" placeholder="Search by subject (e.g., Thermal, DSA)...">
+            </div>
+            <select class="filter-select" id="branchFilter">
+                <option value="all">All Branches</option>
+                <option value="cse">CSE</option>
+                <option value="mech">Mechanical</option>
+                <option value="ece">ECE</option>
+            </select>
+            <select class="filter-select" id="yearFilter">
+                <option value="all">All Years</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+            </select>
+            <select class="filter-select" id="examFilter">
+                <option value="all">All Exams</option>
+                <option value="end">End Semester</option>
+                <option value="mid">Mid Semester</option>
+                <option value="quiz">Quiz/Minor</option>
+            </select>
+            <button class="upload-btn" onclick="openModal()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+            </button>
+        </div>
+
+        <div class="papers-grid" id="papersGrid">
+            </div>
+
+    </div>
+
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" id="chatSendBtn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="uploadModal">
+    <div class="upload-modal">
+        <div class="modal-header">
+            <div class="modal-title">Upload Paper</div>
+            <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.2rem;" onclick="closeModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Subject Name</label>
+            <input type="text" class="form-input" id="uploadSubject" placeholder="e.g. Data Structures">
+        </div>
+        
+        <div style="display:flex; gap:16px;">
+            <div class="form-group" style="flex:1;">
+                <label class="form-label">Year</label>
+                <select class="form-input" id="uploadYear">
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label class="form-label">Type</label>
+                <select class="form-input" id="uploadType">
+                    <option value="end">End Sem</option>
+                    <option value="mid">Mid Sem</option>
+                    <option value="quiz">Quiz</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="file-drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
+            <div id="dropZoneContent">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i>
+                <p style="font-weight:500; color:var(--text-main);">Click to browse or drag file here</p>
+                <p style="font-size:0.8rem; margin-top:5px; color:var(--text-muted);">Supports PDF, JPG, PNG</p>
+            </div>
+        </div>
+
+        <button class="upload-btn" style="width:100%; justify-content:center;" onclick="submitUpload()">
+            Submit Paper
+        </button>
+    </div>
+</div>
+
+
+<script src="archive.js"></script>
+</body>
+</html>
