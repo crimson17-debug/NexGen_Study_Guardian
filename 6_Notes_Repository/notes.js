@@ -217,7 +217,7 @@
 
         // 3. Call Gemini API
         try {
-            const apiKey = "AIzaSyCSk74KwiGihf0B7DkotyhcR5qCGtmKz-w"; // Set at runtime
+            const apiKey = ""; // Set at runtime
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: {
