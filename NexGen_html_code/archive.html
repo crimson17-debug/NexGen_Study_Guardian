@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PYQ Archive | NexGen</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* --- THEME VARIABLES (Aligned with Dashboard) --- */
+:root {
+    /* --- Light Theme Defaults --- */
+    --primary: #3b82f6;
+    --primary-glow: rgba(59, 130, 246, 0.4);
+    --secondary: #8b5cf6; /* Specific to Archive */
+    
+    /* Backgrounds */
+    --bg-body: #f8fafc;
+    --bg-sidebar: rgba(255, 255, 255, 0.85);
+    --bg-card: #ffffff;
+    --bg-hover: #f1f5f9;
+    --bg-input: rgba(255, 255, 255, 0.5);
+    
+    /* Borders & Text */
+    --border: #e2e8f0;
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    
+    /* Effects */
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --glass-blur: blur(12px);
+}
+
+/* --- Dark Theme Overrides --- */
+[data-theme="dark"] {
+    --primary: #818cf8;
+    --primary-glow: rgba(129, 140, 248, 0.3);
+    --secondary: #c084fc;
+    
+    --bg-body: linear-gradient(135deg, #020617 0%, #1e1b4b 50%, #172554 100%);
+    
+    --bg-sidebar: rgba(15, 23, 42, 0.6);
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --bg-hover: rgba(51, 65, 85, 0.8);
+    --bg-input: rgba(15, 23, 42, 0.6);
+    
+    --border: rgba(255, 255, 255, 0.08);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+    --glass-blur: blur(20px); 
+}
+
+/* --- RESET & BASE --- */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; transition: background 0.4s ease, color 0.2s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease; }
+body { height: 100vh; display: flex; background: var(--bg-body); background-size: 200% 200%; color: var(--text-main); overflow: hidden; }
+
+[data-theme="dark"] body {
+    animation: gradientShift 15s ease infinite;
+}
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- SIDEBAR --- */
+.sidebar { width: 270px; background: var(--bg-sidebar); backdrop-filter: var(--glass-blur); border-right: 1px solid var(--border); padding: 24px 16px; display: flex; flex-direction: column; z-index: 20; flex-shrink: 0; overflow-y: auto; }
+.sidebar::-webkit-scrollbar { width: 5px; }
+.sidebar::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+.logo-container { display: flex; align-items: center; gap: 12px; padding: 0 12px 20px; }
+.logo-icon { width: 34px; height: 34px; background: linear-gradient(135deg, var(--primary), #4f46e5); border-radius: 8px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--primary-glow); overflow: hidden; }
+.logo-img { width: 100%; height: 100%; object-fit: cover; }
+.logo-text { font-size: 1.3rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text-main); }
+.sidebar-divider { height: 1px; background: var(--border); margin: 8px 8px 20px; }
+.section-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.05em; margin: 20px 12px 10px; }
+
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: 12px; color: var(--text-muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; margin-bottom: 4px; cursor: pointer; position: relative; overflow: hidden; z-index: 1; }
+.nav-item::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; right: 0; background: var(--bg-hover); z-index: -1; border-radius: 12px; transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.nav-item.active { color: var(--primary); font-weight: 600; }
+.nav-item.active::before { transform: scaleX(1); background: var(--bg-hover); opacity: 0.5; }
+.nav-item.active i { color: var(--primary); }
+.nav-item:hover { color: var(--text-main); transform: translateX(6px); }
+.nav-item:hover::before { transform: scaleX(1); }
+.nav-item i { width: 24px; text-align: center; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.nav-item:hover i { transform: scale(1.15) rotate(5deg); color: var(--primary); }
+
+/* --- HEADER --- */
+.main-layout { flex: 1; display: flex; flex-direction: column; position: relative; overflow: hidden; }
+.top-bar { height: 72px; padding: 0 32px; display: flex; align-items: center; justify-content: space-between; background: var(--bg-sidebar); backdrop-filter: var(--glass-blur); border-bottom: 1px solid var(--border); z-index: 10; }
+.search-wrapper { position: relative; width: 400px; }
+.search-input { width: 100%; padding: 11px 16px 11px 44px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-main); font-size: 0.9rem; }
+.search-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); background: var(--bg-card); }
+.search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+.header-actions { display: flex; align-items: center; gap: 16px; }
+.action-btn { width: 42px; height: 42px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-muted); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.action-btn:hover { background: var(--bg-hover); color: var(--text-main); border-color: var(--primary); transform: translateY(-2px); }
+.profile-avatar { width: 42px; height: 42px; border-radius: 12px; background: linear-gradient(135deg, #6366f1, #d946ef); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; cursor: pointer; box-shadow: 0 4px 10px rgba(99, 102, 241, 0.3); }
+
+/* Hamburger Menu (Mobile) */
+.mobile-menu-btn { display: none; margin-right: 15px; background: transparent; border: none; font-size: 1.4rem; color: var(--text-muted); cursor: pointer; }
+
+/* --- ARCHIVE CONTENT AREA --- */
+.archive-container { flex: 1; padding: 32px; padding-bottom: 120px; overflow-y: auto; display: flex; flex-direction: column; gap: 24px; }
+
+/* Filter Bar */
+.filter-bar { display: flex; gap: 16px; flex-wrap: wrap; align-items: center; background: var(--bg-card); padding: 16px; border-radius: 16px; border: 1px solid var(--border); box-shadow: var(--shadow); backdrop-filter: blur(10px); }
+.search-large-wrapper { flex: 1; position: relative; min-width: 250px; }
+.search-large { width: 100%; padding: 12px 16px 12px 48px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-main); font-size: 0.95rem; outline: none; }
+.search-large:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
+.search-large-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+.filter-select { padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-main); cursor: pointer; font-size: 0.9rem; outline: none; min-width: 140px; }
+.filter-select:hover { border-color: var(--text-muted); }
+.upload-btn { padding: 12px 24px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 4px 15px var(--primary-glow); transition: transform 0.2s; }
+.upload-btn:hover { transform: translateY(-2px); }
+
+/* Stats Row */
+.stats-row { display: flex; gap: 20px; margin-bottom: 8px; }
+.stat-card { flex: 1; background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 20px; position: relative; overflow: hidden; box-shadow: var(--shadow); }
+.stat-icon { width: 50px; height: 50px; border-radius: 12px; background: var(--bg-hover); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--primary); }
+.stat-info h3 { font-size: 1.8rem; font-weight: 700; margin-bottom: 2px; }
+.stat-info p { color: var(--text-muted); font-size: 0.9rem; }
+.stat-bg-icon { position: absolute; right: -10px; bottom: -10px; font-size: 5rem; opacity: 0.05; transform: rotate(-15deg); }
+
+/* Papers Grid */
+.papers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; padding-bottom: 40px; }
+.paper-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; position: relative; display: flex; flex-direction: column; gap: 12px; transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; overflow: hidden; box-shadow: var(--shadow); }
+.paper-card:hover { transform: translateY(-5px); border-color: var(--primary); box-shadow: 0 10px 30px -10px var(--primary-glow); }
+.paper-header { display: flex; justify-content: space-between; align-items: flex-start; }
+.file-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+.icon-pdf { background: rgba(239, 68, 68, 0.1); color: #ef4444; }
+.icon-img { background: rgba(59, 130, 246, 0.1); color: #3b82f6; }
+.paper-year { font-size: 0.8rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; background: var(--bg-hover); color: var(--text-muted); }
+.paper-title { font-size: 1.1rem; font-weight: 600; line-height: 1.4; color: var(--text-main); margin-top: 4px; }
+.paper-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-top: auto; }
+.tag { font-size: 0.75rem; padding: 4px 8px; border-radius: 6px; border: 1px solid var(--border); color: var(--text-muted); }
+.tag.exam { background: rgba(139, 92, 246, 0.1); color: var(--secondary); border: none; }
+.paper-actions { margin-top: 15px; padding-top: 15px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+.author { display: flex; align-items: center; gap: 8px; font-size: 0.8rem; color: var(--text-muted); }
+.author-img { width: 24px; height: 24px; border-radius: 50%; background: #ccc; }
+.download-btn { width: 32px; height: 32px; border-radius: 8px; background: var(--bg-hover); color: var(--text-main); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s; }
+.download-btn:hover { background: var(--primary); color: white; }
+
+/* Upload Modal */
+.modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+.modal-overlay.open { opacity: 1; pointer-events: auto; }
+.upload-modal { width: 500px; background: var(--bg-card); border-radius: 24px; border: 1px solid var(--border); padding: 30px; transform: translateY(20px); transition: transform 0.3s; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+.modal-overlay.open .upload-modal { transform: translateY(0); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-title { font-size: 1.5rem; font-weight: 700; }
+.form-group { margin-bottom: 16px; }
+.form-label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); }
+.form-input { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-input); color: var(--text-main); outline: none; }
+.file-drop-zone { border: 2px dashed var(--border); border-radius: 12px; padding: 30px; text-align: center; color: var(--text-muted); cursor: pointer; transition: border-color 0.2s; margin-bottom: 20px; }
+.file-drop-zone:hover, .file-drop-zone.drag-over { border-color: var(--primary); background: rgba(59, 130, 246, 0.05); transform: scale(1.01); }
+
+/* --- AI WIDGET --- */
+.ai-widget { position: absolute; bottom: 30px; right: 30px; width: auto; height: auto; z-index: 999; }
+.ai-minimized { background: var(--bg-card); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--border); border-radius: 50px; padding: 12px 24px; box-shadow: var(--shadow); color: var(--text-main); font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+.ai-minimized:hover { transform: translateY(-3px) scale(1.02); border-color: var(--primary); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.widget-status { width: 8px; height: 8px; background: #10b981; border-radius: 50%; box-shadow: 0 0 10px #10b981; }
+.chat-interface { position: absolute; bottom: 0; right: 0; width: 380px; height: 550px; background: var(--bg-card); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--border); border-radius: 24px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); display: flex; flex-direction: column; overflow: hidden; opacity: 0; pointer-events: none; transform: translateY(20px) scale(0.95); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.ai-widget.expanded .chat-interface { opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+.ai-widget.expanded .ai-minimized { opacity: 0; pointer-events: none; display: none; }
+.chat-header { padding: 18px 20px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; background: rgba(255, 255, 255, 0.05); }
+.ai-profile { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.95rem; }
+.ai-avatar-small { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, #10b981, #059669); display: flex; align-items: center; justify-content: center; color: white; }
+.close-chat { background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1.1rem; transition: color 0.2s; }
+.close-chat:hover { color: var(--text-main); }
+.chat-body { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; gap: 16px; background: linear-gradient(to bottom, transparent, var(--bg-hover)); }
+.msg { padding: 12px 16px; font-size: 0.9rem; line-height: 1.5; max-width: 85%; position: relative; animation: popIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.msg-user { align-self: flex-end; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white; border-radius: 18px 18px 0 18px; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3); }
+.msg-ai { align-self: flex-start; background: var(--bg-hover); border: 1px solid var(--border); color: var(--text-main); border-radius: 18px 18px 18px 0; }
+.chat-footer { padding: 16px; position: relative; }
+.chat-input-container { background: var(--bg-card); border: 1px solid var(--border); border-radius: 50px; padding: 6px 6px 6px 16px; display: flex; align-items: center; box-shadow: 0 10px 20px -5px rgba(0,0,0,0.05); }
+.chat-input { flex: 1; border: none; background: transparent; outline: none; color: var(--text-main); font-size: 0.9rem; }
+.send-btn { width: 36px; height: 36px; border-radius: 50%; background: var(--primary); color: white; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: transform 0.2s; }
+.send-btn:hover { transform: scale(1.1); }
+
+/* TOAST */
+#toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 1100; pointer-events: none; }
+.toast { background: #0f172a; color: white; padding: 12px 24px; border-radius: 50px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); opacity: 0; transform: translateY(20px); transition: all 0.3s; display: flex; align-items: center; gap: 10px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); }
+.toast.show { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 1024px) {
+    .sidebar { position: fixed; transform: translateX(-100%); transition: transform 0.3s; z-index: 50; }
+    .sidebar.open { transform: translateX(0); }
+    .chat-interface { width: 90vw; bottom: 80px; right: 5vw; height: 60vh; }
+}
+</style>
+</head>
+<body>
+
+<div id="toast-container"></div>
+
+<div class="sidebar" id="mainSidebar">
+    <div class="logo-container">
+        <div class="logo-icon"><img src="NexGen-logo.jpg" alt="Logo" class="logo-img"></div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="dashboard.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    <div class="section-label">Academics</div>
+    <a href="aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    <div class="section-label">Community</div>
+    <a href="notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="channels.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    <div class="section-label">Tools</div>
+    <a href="editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    <div class="section-label">Database</div>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    
+    <div class="top-bar">
+        <div style="display: flex; align-items: center;">
+            <button class="mobile-menu-btn" onclick="toggleMainSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Global Search...">
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle" title="Switch Theme"><i class="fa-solid fa-moon"></i></button>
+            <button class="action-btn"><i class="fa-regular fa-bell"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="archive-container">
+        
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fa-solid fa-file-invoice"></i></div>
+                <div class="stat-info">
+                    <h3>1,240</h3>
+                    <p>Total Papers</p>
+                </div>
+                <i class="fa-solid fa-folder-open stat-bg-icon"></i>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="color:#10b981;"><i class="fa-solid fa-cloud-arrow-up"></i></div>
+                <div class="stat-info">
+                    <h3>24</h3>
+                    <p>Added this week</p>
+                </div>
+                <i class="fa-solid fa-calendar-check stat-bg-icon"></i>
+            </div>
+            <div class="stat-card" style="background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border:none;">
+                <div class="stat-info">
+                    <h3 style="font-size:1.4rem;">Contribute</h3>
+                    <p style="color:rgba(255,255,255,0.8);">Upload papers to earn karma points.</p>
+                </div>
+                <button class="action-btn" style="background:rgba(255,255,255,0.2); color:white; border:none;" onclick="openModal()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="filter-bar">
+            <div class="search-large-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-large-icon"></i>
+                <input type="text" class="search-large" id="searchInput" placeholder="Search by subject (e.g., Thermal, DSA)...">
+            </div>
+            <select class="filter-select" id="branchFilter">
+                <option value="all">All Branches</option>
+                <option value="cse">CSE</option>
+                <option value="mech">Mechanical</option>
+                <option value="ece">ECE</option>
+            </select>
+            <select class="filter-select" id="yearFilter">
+                <option value="all">All Years</option>
+                <option value="2024">2024</option>
+                <option value="2023">2023</option>
+                <option value="2022">2022</option>
+            </select>
+            <select class="filter-select" id="examFilter">
+                <option value="all">All Exams</option>
+                <option value="end">End Semester</option>
+                <option value="mid">Mid Semester</option>
+                <option value="quiz">Quiz/Minor</option>
+            </select>
+            <button class="upload-btn" onclick="openModal()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Upload
+            </button>
+        </div>
+
+        <div class="papers-grid" id="papersGrid">
+            </div>
+
+    </div>
+
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="modal-overlay" id="uploadModal">
+    <div class="upload-modal">
+        <div class="modal-header">
+            <div class="modal-title">Upload Paper</div>
+            <button style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.2rem;" onclick="closeModal()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div class="form-group">
+            <label class="form-label">Subject Name</label>
+            <input type="text" class="form-input" id="uploadSubject" placeholder="e.g. Data Structures">
+        </div>
+        
+        <div style="display:flex; gap:16px;">
+            <div class="form-group" style="flex:1;">
+                <label class="form-label">Year</label>
+                <select class="form-input" id="uploadYear">
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex:1;">
+                <label class="form-label">Type</label>
+                <select class="form-input" id="uploadType">
+                    <option value="end">End Sem</option>
+                    <option value="mid">Mid Sem</option>
+                    <option value="quiz">Quiz</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="file-drop-zone" id="dropZone" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" hidden onchange="handleFileSelect(this)">
+            <div id="dropZoneContent">
+                <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i>
+                <p style="font-weight:500; color:var(--text-main);">Click to browse or drag file here</p>
+                <p style="font-size:0.8rem; margin-top:5px; color:var(--text-muted);">Supports PDF, JPG, PNG</p>
+            </div>
+        </div>
+
+        <button class="upload-btn" style="width:100%; justify-content:center;" onclick="submitUpload()">
+            Submit Paper
+        </button>
+    </div>
+</div>
+
+<script>
+    /* --- 1. PYQ DATA & RENDER --- */
+    // Using let so we can update it with uploads
+    let papers = [
+        { id: 1, title: "Data Structures & Algo", branch: "cse", year: "2023", type: "end", fileType: "pdf", author: "Rahul K." },
+        { id: 2, title: "Engineering Mechanics", branch: "mech", year: "2022", type: "mid", fileType: "pdf", author: "Amit S." },
+        { id: 3, title: "Digital Electronics", branch: "ece", year: "2023", type: "end", fileType: "img", author: "Sarah J." },
+        { id: 4, title: "Thermodynamics", branch: "mech", year: "2024", type: "quiz", fileType: "pdf", author: "Priya V." },
+        { id: 5, title: "Linear Algebra (Maths II)", branch: "all", year: "2022", type: "end", fileType: "pdf", author: "Admin" },
+        { id: 6, title: "Operating Systems", branch: "cse", year: "2023", type: "mid", fileType: "pdf", author: "Rahul K." },
+        { id: 7, title: "Fluid Mechanics", branch: "mech", year: "2023", type: "end", fileType: "img", author: "Amit S." },
+        { id: 8, title: "Network Theory", branch: "ece", year: "2022", type: "end", fileType: "pdf", author: "John D." },
+    ];
+
+    const grid = document.getElementById('papersGrid');
+
+    function renderPapers(data) {
+        grid.innerHTML = "";
+        if(data.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted);">
+                <i class="fa-regular fa-folder-open" style="font-size:3rem; margin-bottom:10px;"></i>
+                <p>No papers found matching your filters.</p>
+            </div>`;
+            return;
+        }
+
+        data.forEach(paper => {
+            const iconClass = paper.fileType === 'pdf' ? 'icon-pdf' : 'icon-img';
+            const iconHtml = paper.fileType === 'pdf' ? '<i class="fa-solid fa-file-pdf"></i>' : '<i class="fa-solid fa-file-image"></i>';
+            const typeLabel = paper.type === 'end' ? 'End Sem' : paper.type === 'mid' ? 'Mid Sem' : 'Quiz';
+            
+            const card = `
+            <div class="paper-card">
+                <div class="paper-header">
+                    <div class="file-icon ${iconClass}">${iconHtml}</div>
+                    <span class="paper-year">${paper.year}</span>
+                </div>
+                <div class="paper-title">${paper.title}</div>
+                <div class="paper-meta">
+                    <span class="tag">${paper.branch.toUpperCase()}</span>
+                    <span class="tag exam">${typeLabel}</span>
+                </div>
+                <div class="paper-actions">
+                    <div class="author">
+                        <div class="author-img"></div>
+                        <span>${paper.author}</span>
+                    </div>
+                    <button class="download-btn" title="Download" onclick="downloadFile('${paper.title}')">
+                        <i class="fa-solid fa-download"></i>
+                    </button>
+                </div>
+            </div>`;
+            grid.innerHTML += card;
+        });
+    }
+
+    // Initial Render
+    renderPapers(papers);
+
+    /* --- 2. FILTER LOGIC --- */
+    const searchInput = document.getElementById('searchInput');
+    const branchFilter = document.getElementById('branchFilter');
+    const yearFilter = document.getElementById('yearFilter');
+    const examFilter = document.getElementById('examFilter');
+
+    function filterData() {
+        const query = searchInput.value.toLowerCase();
+        const branch = branchFilter.value;
+        const year = yearFilter.value;
+        const exam = examFilter.value;
+
+        const filtered = papers.filter(p => {
+            const matchesSearch = p.title.toLowerCase().includes(query);
+            const matchesBranch = branch === 'all' || p.branch === branch || p.branch === 'all';
+            const matchesYear = year === 'all' || p.year === year;
+            const matchesExam = exam === 'all' || p.type === exam;
+            return matchesSearch && matchesBranch && matchesYear && matchesExam;
+        });
+
+        renderPapers(filtered);
+    }
+
+    [searchInput, branchFilter, yearFilter, examFilter].forEach(el => {
+        el.addEventListener('input', filterData);
+    });
+
+    /* --- 3. UPLOAD & DRAG DROP LOGIC --- */
+    const modal = document.getElementById('uploadModal');
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
+    const dropContent = document.getElementById('dropZoneContent');
+    let selectedFile = null;
+
+    function openModal() { modal.classList.add('open'); }
+    function closeModal() { modal.classList.remove('open'); resetUploadForm(); }
+
+    function handleFileSelect(input) {
+        if (input.files && input.files[0]) validateAndSetFile(input.files[0]);
+    }
+
+    // Drag & Drop Events
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(e => {
+        dropZone.addEventListener(e, (ev) => { ev.preventDefault(); ev.stopPropagation(); }, false);
+    });
+    ['dragenter', 'dragover'].forEach(e => dropZone.addEventListener(e, () => dropZone.classList.add('drag-over'), false));
+    ['dragleave', 'drop'].forEach(e => dropZone.addEventListener(e, () => dropZone.classList.remove('drag-over'), false));
+    
+    dropZone.addEventListener('drop', (e) => {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        if(files && files[0]) {
+            validateAndSetFile(files[0]);
+            fileInput.files = files; 
+        }
+    }, false);
+
+    function validateAndSetFile(file) {
+        if(file.size > 5 * 1024 * 1024) { showToast("File is too large (Max 5MB)"); return; }
+        selectedFile = file;
+        dropContent.innerHTML = `
+            <i class="fa-solid fa-file-circle-check" style="font-size:2rem; margin-bottom:10px; color:#10b981;"></i>
+            <p style="font-weight:600; color:var(--text-main);">${file.name}</p>
+            <p style="font-size:0.8rem; margin-top:5px; color:var(--text-muted);">${(file.size/1024/1024).toFixed(2)} MB</p>
+        `;
+    }
+
+    function submitUpload() {
+        const subject = document.getElementById('uploadSubject').value;
+        const year = document.getElementById('uploadYear').value;
+        const type = document.getElementById('uploadType').value;
+        if(!subject || !selectedFile) { showToast("Please fill details and select a file."); return; }
+
+        closeModal();
+        showToast("Uploading paper...");
+
+        setTimeout(() => {
+            const newPaper = {
+                id: Date.now(), title: subject, branch: "all", year: year, type: type, fileType: "pdf", author: "You"
+            };
+            papers.unshift(newPaper);
+            renderPapers(papers);
+            showToast("Upload Successful! (+10 Karma)");
+        }, 1500);
+    }
+
+    function resetUploadForm() {
+        document.getElementById('uploadSubject').value = "";
+        selectedFile = null;
+        dropContent.innerHTML = `<i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; margin-bottom:10px; color:var(--primary);"></i><p style="font-weight:500; color:var(--text-main);">Click to browse or drag file here</p><p style="font-size:0.8rem; margin-top:5px; color:var(--text-muted);">Supports PDF, JPG, PNG</p>`;
+    }
+
+    /* --- 4. COMMON UTILS (Toast, Download, Theme) --- */
+    function downloadFile(name) { showToast(`Downloading: ${name}.pdf`); }
+
+    function showToast(msg) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = `<i class="fa-solid fa-circle-check" style="color:#10b981;"></i> ${msg}`;
+        container.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => { toast.classList.remove('show'); setTimeout(() => toast.remove(), 300); }, 3000);
+    }
+
+    /* THEME TOGGLE (Standardized) */
+    const toggleBtn = document.getElementById('theme-toggle');
+    const body = document.body;
+    const icon = toggleBtn.querySelector('i');
+
+    // Initial Load Check
+    if(localStorage.getItem('theme') === 'dark') {
+        body.setAttribute('data-theme', 'dark');
+        icon.classList.replace('fa-moon', 'fa-sun');
+    }
+
+    // Click Handler
+    toggleBtn.addEventListener('click', () => {
+        if(body.getAttribute('data-theme') === 'dark') {
+            body.removeAttribute('data-theme');
+            icon.classList.replace('fa-sun', 'fa-moon');
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            icon.classList.replace('fa-moon', 'fa-sun');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    /* MOBILE SIDEBAR TOGGLE */
+    function toggleMainSidebar() {
+        document.getElementById('mainSidebar').classList.toggle('open');
+    }
+    document.addEventListener('click', function(event) {
+        const sidebar = document.getElementById('mainSidebar');
+        const btn = document.querySelector('.mobile-menu-btn');
+        if (window.innerWidth <= 1024 && !sidebar.contains(event.target) && !btn.contains(event.target) && sidebar.classList.contains('open')) {
+            sidebar.classList.remove('open');
+        }
+    });
+
+    /* --- 5. AI CHATBOT LOGIC --- */
+    const widget = document.getElementById('ai-widget');
+    const chatBox = document.getElementById('chat-box');
+    const chatInput = document.getElementById('chat-input');
+    let firstOpen = true;
+
+    function toggleChat() {
+        widget.classList.toggle('expanded');
+        if(widget.classList.contains('expanded') && firstOpen) {
+            firstOpen = false;
+            setTimeout(() => addMessage("ai", "Hi John, need help finding a paper?"), 500);
+        }
+    }
+    function handleEnter(e) { if(e.key === 'Enter') sendMessage(); }
+    function sendMessage() {
+        const text = chatInput.value.trim();
+        if(!text) return;
+        addMessage("user", text);
+        chatInput.value = '';
+        const typingId = showTyping();
+        setTimeout(() => {
+            removeTyping(typingId);
+            addMessage("ai", "I can help you filter papers by year or subject.");
+        }, 1500);
+    }
+    function addMessage(sender, text) {
+        const div = document.createElement('div');
+        div.className = `msg msg-${sender}`;
+        div.textContent = text;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+    function showTyping() {
+        const id = 'typing-' + Date.now();
+        const div = document.createElement('div');
+        div.className = 'typing-indicator';
+        div.id = id;
+        div.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+        return id;
+    }
+    function removeTyping(id) { const el = document.getElementById(id); if(el) el.remove(); }
+
+</script>
+
+</body>
+</html>
