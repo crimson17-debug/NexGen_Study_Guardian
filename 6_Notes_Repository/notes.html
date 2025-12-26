@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notes Repository | NexGen</title>
+
+
+
+<link rel="stylesheet" href="notes.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <div class="logo-container">
+        <div class="logo-icon"><img src="NexGen-logo.jpg" alt="NexGen Logo" class="logo-img" onerror="this.src='https://placehold.co/100x100?text=NG'"></div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="\1_Dashboard\index.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    
+    <div class="section-label">Academics</div>
+    <a href="\2_AIPaperGenerator\aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="\8_Syllabus\syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    
+    <div class="section-label">Community</div>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="\4_Branch_Channels\channels.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    
+    <div class="section-label">Tools</div>
+    <a href="\5_Code_Editor\editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    
+    <div class="section-label">Database</div>
+    <a href="\3_PYQ_Archive\archive.html" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="\7_Syllabus_List\syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    
+    <div class="top-bar">
+        <div class="search-wrapper">
+            <button class="menu-toggle" onclick="toggleSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <i class="fa-solid fa-magnifying-glass search-icon" style="left: 55px;"></i>
+            <input type="text" class="search-input" style="padding-left: 50px;" placeholder="Search notes, authors...">
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <button class="action-btn"><i class="fa-regular fa-bell"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="content-area">
+        
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Notes Repository</h2>
+                <p>Share and access study materials from the community.</p>
+            </div>
+            <button class="action-btn" style="width:auto; padding:0 20px; gap:10px; font-weight:600; color:var(--primary); border-color:var(--primary);" onclick="openUploadModal()">
+                <i class="fa-solid fa-cloud-arrow-up"></i> Upload Note
+            </button>
+        </div>
+
+        <!-- HERO SEARCH -->
+        <div class="repo-search-container">
+            <div class="hero-content">
+                <div class="hero-title">Discover Knowledge</div>
+                <div class="big-search-box">
+                    <i class="fa-solid fa-magnifying-glass big-search-icon"></i>
+                    <input type="text" class="big-search-input" id="repoSearch" placeholder="Find notes by title, code or author..." onkeyup="filterNotes()">
+                </div>
+            </div>
+        </div>
+
+        <div class="notes-grid" id="notesGrid">
+            
+            <!-- Existing Note 1 -->
+            <div class="note-card" data-title="Thermodynamics Basics" data-code="ME201" data-author="Dr. Smith">
+                <div class="note-icon-box icon-pdf"><i class="fa-solid fa-file-pdf"></i></div>
+                <div class="note-info">
+                    <span class="note-course">ME201</span>
+                    <h3>Thermodynamics Basics</h3>
+                    <p class="note-desc">Comprehensive notes on laws of thermodynamics, entropy, and heat transfer mechanisms.</p>
+                </div>
+                <div class="note-footer">
+                    <div class="author-info">
+                        <div class="author-avatar">DS</div>
+                        <span>Dr. Smith</span>
+                    </div>
+                    <span>Oct 24, 2023</span>
+                </div>
+                <button class="download-btn" onclick="downloadNote(this)"><i class="fa-solid fa-download"></i> Download</button>
+            </div>
+
+            <!-- Existing Note 2 -->
+            <div class="note-card" data-title="Java Programming" data-code="CS302" data-author="Alice J.">
+                <div class="note-icon-box icon-doc"><i class="fa-solid fa-file-word"></i></div>
+                <div class="note-info">
+                    <span class="note-course">CS302</span>
+                    <h3>Java OOPS Concepts</h3>
+                    <p class="note-desc">Detailed explanation of Inheritance, Polymorphism, Encapsulation and Abstraction.</p>
+                </div>
+                <div class="note-footer">
+                    <div class="author-info">
+                        <div class="author-avatar">AJ</div>
+                        <span>Alice J.</span>
+                    </div>
+                    <span>Nov 10, 2023</span>
+                </div>
+                <button class="download-btn" onclick="downloadNote(this)"><i class="fa-solid fa-download"></i> Download</button>
+            </div>
+
+            <!-- Existing Note 3 -->
+            <div class="note-card" data-title="Digital Logic" data-code="EC201" data-author="Bob M.">
+                <div class="note-icon-box icon-img"><i class="fa-solid fa-file-image"></i></div>
+                <div class="note-info">
+                    <span class="note-course">EC201</span>
+                    <h3>K-Map Solutions</h3>
+                    <p class="note-desc">Handwritten notes solving complex Karnaugh Maps for 4 and 5 variables.</p>
+                </div>
+                <div class="note-footer">
+                    <div class="author-info">
+                        <div class="author-avatar">BM</div>
+                        <span>Bob M.</span>
+                    </div>
+                    <span>Dec 01, 2023</span>
+                </div>
+                <button class="download-btn" onclick="downloadNote(this)"><i class="fa-solid fa-download"></i> Download</button>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AI WIDGET -->
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPLOAD MODAL -->
+    <div id="uploadModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3><i class="fa-solid fa-cloud-arrow-up" style="color:var(--primary);"></i> Upload New Note</h3>
+            
+            <div class="form-group">
+                <label class="form-label">Note Title</label>
+                <input type="text" id="noteTitle" class="form-input" placeholder="e.g. Unit 4 Summary">
+            </div>
+
+            <div style="display:flex; gap:15px;">
+                <div class="form-group" style="flex:1;">
+                    <label class="form-label">Course Name</label>
+                    <input type="text" id="courseName" class="form-input" placeholder="e.g. Data Structures">
+                </div>
+                <div class="form-group" style="width: 140px;">
+                    <label class="form-label">Course Code</label>
+                    <input type="text" id="courseCode" class="form-input" placeholder="e.g. CS201">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">Description</label>
+                <textarea id="noteDesc" class="form-textarea" placeholder="Brief description of the contents..."></textarea>
+            </div>
+
+            <div class="file-upload-box" onclick="document.getElementById('fileInput').click()">
+                <i class="fa-solid fa-file-arrow-up"></i>
+                <p>Click to browse or drag file here</p>
+                <input type="file" id="fileInput" class="file-input-hidden" onchange="handleFileSelect(this)">
+                <div id="fileName" class="file-name-display"></div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeUploadModal()">Cancel</button>
+                <button class="save-btn" onclick="saveNote()"><i class="fa-solid fa-check"></i> Upload</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script src="notes.js"></script>
+</body>
+</html>
