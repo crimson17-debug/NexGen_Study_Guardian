@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Branch Channels | NexGen</title>
+
+
+<link rel="stylesheet" href="channels.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<div class="sidebar" id="mainSidebar">
+    <div class="logo-container">
+        <div class="logo-icon"><img src="NexGen-logo.jpg" alt="NexGen Logo" class="logo-img"></div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="\1_Dashboard\index.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    <div class="section-label">Academics</div>
+    <a href="\2_AIPaperGenerator\aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="\8_Syllabus\syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    <div class="section-label">Community</div>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    <div class="section-label">Tools</div>
+    <a href="\5_Code_Editor\editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    <div class="section-label">Database</div>
+    <a href="\3_PYQ_Archive\archive.html" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="\7_Syllabus_List\syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    
+    <div class="top-bar">
+        <div style="display: flex; align-items: center;">
+            <button class="mobile-menu-btn" onclick="toggleMainSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search messages...">
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <button class="action-btn"><i class="fa-regular fa-bell"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="channel-container">
+        
+        <!-- 1. LEFT: CHANNEL LIST -->
+        <div class="channel-sidebar">
+            <div class="branch-select-wrapper">
+                <select class="branch-select" id="branchSelector" onchange="switchBranch()">
+                    <option value="" disabled selected>Select Domain</option>
+                    
+                    <optgroup label="Open Domains">
+                        <option value="General">General Sciences</option>
+                        <option value="DS">Data Science & Stats</option>
+                        <option value="AI">Artificial Intelligence</option>
+                        <option value="Humanities">Humanities</option>
+                    </optgroup>
+
+                    <optgroup label="Engineering (Special Permission)">
+                        <option value="CSE">Computer Science</option>
+                        <option value="ECE">Electronics (ECE)</option>
+                        <option value="MECH">Mechanical (MECH)</option>
+                        <option value="CIVIL">Civil Engineering</option>
+                    </optgroup>
+                </select>
+                <i class="fa-solid fa-chevron-down branch-select-icon"></i>
+            </div>
+
+            <!-- Scrollable Middle Section -->
+            <div class="sidebar-scroll-area">
+                <div class="channel-group-label" style="margin-top: 0;">Engineering Branches <i class="fa-solid fa-lock" style="font-size:0.7em; margin-left:5px;"></i></div>
+                <div class="channel-list" id="branchList">
+                    <div class="channel-item branch-item active" onclick="selectBranch(this, 'CSE')">
+                        <span class="channel-hash"><i class="fa-solid fa-building-columns"></i></span> <span class="channel-text">CSE</span>
+                    </div>
+                    <div class="channel-item branch-item" onclick="selectBranch(this, 'ECE')">
+                        <span class="channel-hash"><i class="fa-solid fa-microchip"></i></span> <span class="channel-text">ECE</span>
+                    </div>
+                    <div class="channel-item branch-item" onclick="selectBranch(this, 'MECH')">
+                        <span class="channel-hash"><i class="fa-solid fa-gears"></i></span> <span class="channel-text">MECH</span>
+                    </div>
+                    <div class="channel-item branch-item" onclick="selectBranch(this, 'CIVIL')">
+                        <span class="channel-hash"><i class="fa-solid fa-building"></i></span> <span class="channel-text">CIVIL</span>
+                    </div>
+                    <div class="channel-item branch-item" onclick="selectBranch(this, 'DS')">
+                        <span class="channel-hash"><i class="fa-solid fa-database"></i></span> <span class="channel-text">Data Science</span>
+                    </div>
+                </div>
+
+                <div class="channel-group-label">Text Channels</div>
+                <div class="channel-list" id="channelList">
+                    <div class="channel-item active" onclick="selectChannel(this, 'general')">
+                        <span class="channel-hash">#</span> <span class="channel-text">general</span>
+                    </div>
+                    <div class="channel-item" onclick="selectChannel(this, 'resources')">
+                        <span class="channel-hash">#</span> <span class="channel-text">resources</span>
+                    </div>
+                    <div class="channel-item" onclick="selectChannel(this, 'doubts-discussion')">
+                        <span class="channel-hash">#</span> <span class="channel-text">doubts-discussion</span>
+                    </div>
+                    <div class="channel-item" onclick="selectChannel(this, 'events-news')">
+                        <span class="channel-hash">#</span> <span class="channel-text">events-news</span>
+                    </div>
+                </div>
+
+                <div class="channel-group-label" style="margin-top:20px;">Study Groups</div>
+                <div class="channel-list" id="groupList">
+                    <div class="channel-item" onclick="selectChannel(this, 'Project Alpha', true)">
+                        <i class="fa-solid fa-lock channel-hash" style="font-size:0.8rem;"></i> <span class="channel-text">Project Alpha</span>
+                    </div>
+                    <div class="channel-item" onclick="selectChannel(this, 'Hackathon Team', true)">
+                        <i class="fa-solid fa-lock channel-hash" style="font-size:0.8rem;"></i> <span class="channel-text">Hackathon Team</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="create-group-btn" onclick="openCreateModal()">
+                <i class="fa-solid fa-plus"></i> <span class="channel-text">Create Group</span>
+            </button>
+        </div>
+
+        <!-- 2. MIDDLE: CHAT FEED -->
+        <div class="chat-area">
+            <div class="chat-area-header">
+                <div class="chat-title">
+                    <span id="channelIconWrapper"><span style="color:var(--text-muted); font-size:1.5rem;">#</span></span> 
+                    <h3><span id="currentChannelName">general</span></h3>
+                    <div class="chat-desc" style="margin-left: 10px;">General discussion for <span id="currentBranchName">CSE</span> students.</div>
+                </div>
+                <div class="header-actions">
+                    <button class="action-btn" style="border:none;"><i class="fa-solid fa-phone"></i></button>
+                    <button class="action-btn" style="border:none;"><i class="fa-solid fa-video"></i></button>
+                    <button class="action-btn" style="border:none;"><i class="fa-solid fa-user-group"></i></button>
+                </div>
+            </div>
+
+            <div class="messages-feed" id="mainChatFeed">
+                <!-- Initial Messages -->
+                <div class="message-group">
+                    <div class="user-avatar" style="background:#ef4444;">AM</div>
+                    <div class="msg-content">
+                        <div class="msg-header"><span class="username">Alex Martin</span> <span class="timestamp">Today at 10:30 AM</span></div>
+                        <div class="msg-text">Has anyone started the assignment for Database Management yet? The deadline is next Monday.</div>
+                    </div>
+                </div>
+                
+                <div class="message-group">
+                    <div class="user-avatar" style="background:#3b82f6;">SJ</div>
+                    <div class="msg-content">
+                        <div class="msg-header"><span class="username">Sarah Jenkins</span> <span class="timestamp">Today at 10:32 AM</span></div>
+                        <div class="msg-text">Yeah, I'm halfway through. The normalization part is a bit tricky. I can share some notes in #resources if you want?</div>
+                        <!-- Mock Attachment -->
+                        <div class="attachment-preview" onclick="viewAttachment('Normalization_Notes.pdf')">
+                            <i class="fa-solid fa-file-pdf attachment-icon"></i>
+                            <span class="attachment-name">Normalization_Notes.pdf</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="message-group">
+                    <div class="user-avatar" style="background:#10b981;">RK</div>
+                    <div class="msg-content">
+                        <div class="msg-header"><span class="username">Rahul Kumar</span> <span class="timestamp">Today at 10:35 AM</span></div>
+                        <div class="msg-text">That would be super helpful, Sarah! Thanks. Also, is there a class tomorrow?</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-area" id="chatInputArea">
+                <div class="input-wrapper">
+                    <button class="chat-btn"><i class="fa-solid fa-circle-plus"></i></button>
+                    <input type="text" class="chat-field" id="mainChatInput" placeholder="Message #general..." onkeypress="handleMainEnter(event)">
+                    <button class="chat-btn"><i class="fa-solid fa-face-smile"></i></button>
+                    <button class="chat-btn send-msg-btn" onclick="sendMainMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. RIGHT: INFO PANEL -->
+        <div class="info-panel">
+            <div class="info-section">
+                <h4><i class="fa-solid fa-thumbtack"></i> Pinned</h4>
+                <div class="pinned-item" onclick="viewAttachment('Exam_Schedule.pdf')">
+                    <div class="pin-header"><i class="fa-solid fa-file-pdf"></i> Exam Schedule.pdf</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted);">Shared by Admin</div>
+                </div>
+                <div class="pinned-item" onclick="viewAttachment('Syllabus_Link.html')">
+                    <div class="pin-header"><i class="fa-solid fa-link"></i> Syllabus Link</div>
+                    <div style="font-size:0.8rem; color:var(--text-muted);">Official University Site</div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h4>Online — 3</h4>
+                <div class="user-list-item" onclick="openDM('Alex Martin')">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-img" style="background:#ef4444; display:flex; align-items:center; justify-content:center; color:white; font-weight:700;">AM</div>
+                        <div class="status-dot" style="background:#10b981;"></div>
+                    </div>
+                    <span>Alex Martin</span>
+                </div>
+                <div class="user-list-item" onclick="openDM('Sarah Jenkins')">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-img" style="background:#3b82f6; display:flex; align-items:center; justify-content:center; color:white; font-weight:700;">SJ</div>
+                        <div class="status-dot" style="background:#eab308;"></div>
+                    </div>
+                    <span>Sarah Jenkins</span>
+                </div>
+                <div class="user-list-item" onclick="openDM('John Doe')">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-img" style="background:#8b5cf6; display:flex; align-items:center; justify-content:center; color:white; font-weight:700;">JD</div>
+                        <div class="status-dot" style="background:#10b981;"></div>
+                    </div>
+                    <span>John Doe (You)</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- CREATE GROUP MODAL -->
+    <div id="createGroupModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3>Create New Group</h3>
+            <label class="form-label">Group Name</label>
+            <input type="text" id="groupName" class="form-input" placeholder="e.g. AI Research Squad">
+            
+            <label class="form-label">Description (Optional)</label>
+            <input type="text" id="groupDesc" class="form-input" placeholder="What's this group about?">
+            
+            <label class="form-label">Group Icon</label>
+            <div class="icon-selector" id="iconSelector">
+                <div class="icon-option selected" onclick="selectIcon(this, '🚀')">🚀</div>
+                <div class="icon-option" onclick="selectIcon(this, '📚')">📚</div>
+                <div class="icon-option" onclick="selectIcon(this, '💻')">💻</div>
+                <div class="icon-option" onclick="selectIcon(this, '⚡')">⚡</div>
+                <div class="icon-option" onclick="selectIcon(this, '🧬')">🧬</div>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeCreateModal()">Cancel</button>
+                <button class="btn-create" onclick="createGroup()">Create</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="permissionModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 style="color:var(--danger); display:flex; align-items:center; gap:10px;">
+                <i class="fa-solid fa-lock"></i> Restricted Access
+            </h3>
+            <p style="color:var(--text-muted); margin-bottom:20px; font-size:0.95rem;">
+                The <strong><span id="targetBranch"></span></strong> channel requires verification. Please enter your Roll Number to request permission.
+            </p>
+            
+            <label class="form-label">Roll Number</label>
+            <input type="text" id="rollNoInput" class="form-input" placeholder="e.g. 21BCS045">
+            
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closePermissionModal()">Cancel</button>
+                <button class="btn-create" id="sendRequestBtn" onclick="submitPermissionRequest()">Send Request</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="channels.js"></script>
+</body>
+</html>
