@@ -202,7 +202,7 @@
     const widget = document.getElementById('ai-widget');
     const chatBox = document.getElementById('chat-box');
     const chatInput = document.getElementById('chat-input');
-    const apiKey = "AIzaSyCSk74KwiGihf0B7DkotyhcR5qCGtmKz-w"; // API Key injected by environment
+    const apiKey = ""; // API Key injected by environment
     let firstOpen = true;
 
     function toggleChat() {
