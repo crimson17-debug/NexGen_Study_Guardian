@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syllabus Tracker | NexGen</title>
+
+<link rel="stylesheet" href="syllabus.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+
+<div class="sidebar" id="mainSidebar">
+    <div class="logo-container">
+        <div class="logo-icon">
+            <img src="NexGen-logo.jpg" alt="NexGen Logo" class="logo-img">
+        </div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="\1_Dashboard\index.html" class="nav-item"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    
+    <div class="section-label">Academics</div>
+    <a href="\2_AIPaperGenerator\aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    
+    <div class="section-label">Community</div>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    
+    <div class="section-label">Tools</div>
+    <a href="\5_Code_Editor\editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    
+    <div class="section-label">Database</div>
+    <a href="\3_PYQ_Archive\archive.html" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="\7_Syllabus_List\syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    
+    <div class="top-bar">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <button class="mobile-menu-btn" onclick="toggleMainSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search site...">
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <button class="action-btn"><i class="fa-regular fa-bell"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="content-area">
+        
+        <div class="page-header">
+            <div class="page-title">
+                <h2>Syllabus Tracker</h2>
+                <p>Track your progress across all enrolled courses.</p>
+            </div>
+            <button class="action-btn" style="width:auto; padding:0 20px; gap:10px; font-weight:600; color:var(--primary); border-color:var(--primary);" onclick="openAddCourseModal()">
+                <i class="fa-solid fa-plus"></i> Add New Course
+            </button>
+        </div>
+
+        <!-- HERO SEARCH FOR SYLLABUS -->
+        <div class="tracker-search-container">
+            <div class="hero-content">
+                <div class="hero-title">Find Your Course Syllabus</div>
+                <div class="big-search-box">
+                    <i class="fa-solid fa-book-open big-search-icon"></i>
+                    <input type="text" class="big-search-input" id="syllabusSearch" placeholder="Search by Course Code (e.g., CS201) or Subject Name..." onkeyup="filterCourses()">
+                </div>
+            </div>
+        </div>
+
+        <div class="courses-grid" id="coursesGrid">
+            
+            <!-- COURSE 1 -->
+            <div class="course-card" data-title="Data Structures" data-code="CS201">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="course-meta">
+                        <div class="course-info">
+                            <h3>Data Structures & Algos</h3>
+                            <span class="course-code">CS201</span>
+                        </div>
+                        <div class="toggle-btn"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-labels">
+                            <span>Progress</span>
+                            <span class="pct-text">0%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="module-item">
+                        <div class="module-header">Unit 1: Introduction to Arrays</div>
+                        <ul class="topic-list">
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Memory Allocation</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Sparse Matrices</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Polynomial Representation</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="module-item">
+                        <div class="module-header">Unit 2: Linked Lists</div>
+                        <ul class="topic-list">
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Singly Linked List</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Doubly Linked List</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Circular Linked List</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COURSE 2 -->
+            <div class="course-card" data-title="Database Management" data-code="CS305">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="course-meta">
+                        <div class="course-info">
+                            <h3>Database Management</h3>
+                            <span class="course-code">CS305</span>
+                        </div>
+                        <div class="toggle-btn"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-labels">
+                            <span>Progress</span>
+                            <span class="pct-text">0%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="module-item">
+                        <div class="module-header">Module 1: Intro to DBMS</div>
+                        <ul class="topic-list">
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Data Models</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>ER Diagrams</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="module-item">
+                        <div class="module-header">Module 2: SQL Basics</div>
+                        <ul class="topic-list">
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>DDL Commands</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>DML Commands</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Joins & Subqueries</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+             <!-- COURSE 3 -->
+             <div class="course-card" data-title="Engineering Mathematics" data-code="MA101">
+                <div class="card-header" onclick="toggleCard(this)">
+                    <div class="course-meta">
+                        <div class="course-info">
+                            <h3>Engineering Mathematics</h3>
+                            <span class="course-code">MA101</span>
+                        </div>
+                        <div class="toggle-btn"><i class="fa-solid fa-chevron-down"></i></div>
+                    </div>
+                    <div class="progress-section">
+                        <div class="progress-labels">
+                            <span>Progress</span>
+                            <span class="pct-text">0%</span>
+                        </div>
+                        <div class="progress-bg"><div class="progress-fill" style="width: 0%"></div></div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="module-item">
+                        <div class="module-header">Unit 1: Calculus</div>
+                        <ul class="topic-list">
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Mean Value Theorems</span>
+                            </li>
+                            <li class="topic-item" onclick="toggleCheck(this)">
+                                <div class="custom-checkbox"><i class="fa-solid fa-check"></i></div>
+                                <span>Partial Differentiation</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- AI WIDGET -->
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ADD COURSE MODAL (UPDATED) -->
+    <div id="addCourseModal" class="modal-overlay">
+        <div class="modal-content">
+            <h3><i class="fa-solid fa-book-medical" style="color:var(--primary);"></i> Add New Course</h3>
+            <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:20px;">Search our database to add a pre-structured syllabus.</p>
+            
+            <div style="position:relative;">
+                <i class="fa-solid fa-magnifying-glass" style="position:absolute; left:15px; top:12px; color:var(--text-muted);"></i>
+                <input type="text" id="courseSearchInput" class="form-input" style="padding-left:40px;" placeholder="Type course code or name..." onkeyup="searchDatabase()" onfocus="searchDatabase()">
+            </div>
+            
+            <div id="searchResults" class="course-list-container">
+                <!-- Results injected here -->
+            </div>
+
+            <!-- Hidden inputs for selection storage -->
+            <input type="hidden" id="selectedCourseName">
+            <input type="hidden" id="selectedCourseCode">
+
+            <div class="modal-actions">
+                <button class="cancel-btn" onclick="closeAddCourseModal()">Cancel</button>
+                <button class="save-btn" onclick="saveNewCourse()"><i class="fa-solid fa-check"></i> Add Course</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="syllabus.js"></script>
+
+</body>
+</html>
