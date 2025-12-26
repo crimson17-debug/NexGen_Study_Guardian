@@ -269,7 +269,7 @@ async function generateWithRetry(model, prompt) {
         const typingId = showTyping();
 
         // 3. API Call
-        const apiKey = "AIzaSyCSk74KwiGihf0B7DkotyhcR5qCGtmKz-w"; // System provides this at runtime
+        const apiKey = ""; // System provides this at runtime
         const currentBranch = document.getElementById('currentBranchName').innerText;
         const currentChannel = document.getElementById('currentChannelName').innerText;
         
