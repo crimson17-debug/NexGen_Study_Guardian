@@ -25,7 +25,7 @@ async function generateWithRetry(model, prompt) {
 }
     // --- API CONFIGURATION ---
     // PASTE YOUR GOOGLE GEMINI API KEY HERE
-    const apiKey = "AIzaSyCSk74KwiGihf0B7DkotyhcR5qCGtmKz-w"; 
+    const apiKey = "config.API_KEY"; 
 
     /* 1. GATEWAY LOGIC (FORCED RESET) */
     const gateway = document.getElementById('gateway');
