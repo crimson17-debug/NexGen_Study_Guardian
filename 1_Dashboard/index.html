@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGen Dashboard</title>
+
+<link rel="stylesheet" href="index.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+
+
+</head>
+<body>
+
+<div class="gateway-overlay" id="gateway">
+    <div class="gateway-card">
+        <div class="gateway-icon">
+            <img src="NexGen-logo.jpg" alt="Logo" onerror="this.style.display='none'">
+        </div>
+        <h1 class="gateway-title">Welcome to NexGen</h1>
+        <p class="gateway-text">
+            Initializing secure academic environment.<br>
+            Please verify to access your knowledge matrix.
+        </p>
+        <button class="gateway-btn" id="initBtn" onclick="initializeSystem()">
+            <span>INITIALIZE SYSTEM</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+</div>
+
+<div class="sidebar" id="mainSidebar">
+    <div class="logo-container">
+        <div class="logo-icon"><img src="NexGen-logo.jpg" alt="Logo" class="logo-img" onerror="this.style.display='none'"></div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    <div class="section-label">Academics</div>
+    <a href="\2_AIPaperGenerator\aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="\8_Syllabus\syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    <div class="section-label">Community</div>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="\4_Branch_Channels\channels.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    <div class="section-label">Tools</div>
+    <a href="editor.html" class="nav-item"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    <div class="section-label">Database</div>
+    <a href="\3_PYQ_Archive\archive.html" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="\7_Syllabus_List\syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    
+    <div class="top-bar">
+        <div style="display: flex; align-items: center;">
+            <button class="mobile-menu-btn" onclick="toggleMainSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search...">
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle"><i class="fa-solid fa-moon"></i></button>
+            <button class="action-btn"><i class="fa-regular fa-bell"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="dashboard-card area-header">
+            <div class="streak-inner">
+                <div class="streak-info">
+                    <h2>Welcome back, John!</h2>
+                    <p>Your Knowledge Core is active. Daily consistency stabilizes the learning matrix.</p>
+                </div>
+                
+                <div class="gyro-container">
+                    <div class="gyro-ring ring-1"></div>
+                    <div class="gyro-ring ring-2"></div>
+                    <div class="gyro-ring ring-3"></div>
+                    <div class="gyro-core"></div>
+                </div>
+
+                <div class="streak-stats">
+                    <span class="stat-number">12</span><span class="stat-label">Day Streak</span>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-card area-left">
+            <div class="recent-inner">
+                <div class="section-title"><i class="fa-regular fa-clock"></i> Recent Visits</div>
+                <div class="activity-grid">
+                    <div class="activity-card">
+                        <div class="card-icon icon-pdf"><i class="fa-solid fa-file-pdf"></i></div>
+                        <div><div class="card-title">Thermodynamics.pdf</div><div class="card-meta">Viewed 2h ago</div></div>
+                    </div>
+                    <div class="activity-card">
+                        <div class="card-icon icon-chat"><i class="fa-solid fa-robot"></i></div>
+                        <div><div class="card-title">Chat: Java Basics</div><div class="card-meta">Active 5h ago</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dashboard-card area-right">
+            <div class="tools-inner">
+                <div class="section-title"><i class="fa-solid fa-layer-group"></i> Tools</div>
+                <div class="tool-list">
+                    <div class="tool-item"><i class="fa-solid fa-plus"></i> New Note</div>
+                    <div class="tool-item"><i class="fa-solid fa-upload"></i> Upload Syllabus</div>
+                </div>
+                <div class="heatmap-container">
+                    <div class="heatmap-grid">
+                        <div class="heat-bar" style="background:var(--heat-low); height: 30%;"></div>
+                        <div class="heat-bar" style="background:var(--heat-med); height: 50%;"></div>
+                        <div class="heat-bar" style="background:var(--heat-max); height: 90%;"></div>
+                        <div class="heat-bar" style="background:var(--heat-high); height: 70%;"></div>
+                        <div class="heat-bar" style="background:var(--heat-med); height: 40%;"></div>
+                        <div class="heat-bar" style="background:var(--heat-low); height: 20%;"></div>
+                        <div class="heat-bar" style="background:var(--heat-low); height: 30%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask anything..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="index.js"></script>
+</body>
+</html>
