@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NexGen AI Code Editor</title>
+
+<!-- External Resources -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="editor.css">
+</head>
+<body data-theme="dark">
+
+<div id="toast-container"></div>
+
+<div class="sidebar" id="mainSidebar">
+    <div class="logo-container">
+        <div class="logo-icon"><i class="fa-solid fa-code"></i></div>
+        <span class="logo-text">NexGen</span>
+    </div>
+    <div class="sidebar-divider"></div>
+    <a href="\1_Dashboard\index.html" class="nav-item active"><i class="fa-solid fa-house-chimney"></i>Dashboard</a>
+    <div class="section-label">Academics</div>
+    <a href="\2_AIPaperGenerator\aipapergen.html" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i>AI Paper Gen</a>
+    <a href="\8_Syllabus\syllabus.html" class="nav-item"><i class="fa-solid fa-crosshairs"></i>Syllabus Tracker</a>
+    <div class="section-label">Community</div>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-brain"></i>Notes Repo</a>
+    <a href="\4_Branch_Channels\channels.html" class="nav-item"><i class="fa-solid fa-code-branch"></i>Branch Channel</a>
+    <div class="section-label">Tools</div>
+    <a href="#" class="nav-item active"><i class="fa-solid fa-terminal"></i>Code Editor</a>
+    <div class="section-label">Database</div>
+    <a href="\3_PYQ_Archive\archive.html" class="nav-item"><i class="fa-solid fa-database"></i>PYQ Archive</a>
+    <a href="\7_Syllabus_List\syllabus-list.html" class="nav-item"><i class="fa-solid fa-list-check"></i>Syllabus List</a>
+    <a href="\6_Notes_Repository\notes.html" class="nav-item"><i class="fa-solid fa-folder-open"></i>Notes Library</a>
+</div>
+
+<div class="main-layout">
+    <div class="top-bar">
+        <div style="display: flex; align-items: center;">
+            <button class="mobile-menu-btn" onclick="toggleMainSidebar()"><i class="fa-solid fa-bars"></i></button>
+            <div class="search-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" class="search-input" placeholder="Search files, snippets...">
+            </div>
+        </div>
+        <div class="header-actions">
+            <button class="action-btn" id="theme-toggle"><i class="fa-solid fa-sun"></i></button>
+            <div class="profile-avatar">JD</div>
+        </div>
+    </div>
+
+    <div class="editor-container">
+        <div class="editor-toolbar">
+            <div class="toolbar-left">
+                <div class="lang-select-wrapper">
+                    <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                        <option value="python">Python 3</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="cpp">C++ 20</option>
+                        <option value="java">Java 17</option>
+                    </select>
+                    <i class="fa-solid fa-chevron-down lang-select-icon"></i>
+                </div>
+                <div style="width:1px; height:24px; background:var(--border); margin:0 8px;"></div>
+                <button class="toolbar-btn primary" title="Save File (Ctrl+S)" onclick="saveCode()"><i class="fa-regular fa-floppy-disk"></i> Save</button>
+                <button class="toolbar-btn" title="AI Fix" onclick="askAIToFix()"><i class="fa-solid fa-wand-magic-sparkles"></i> Fix with AI</button>
+            </div>
+            <div class="toolbar-right">
+                <button class="action-btn" onclick="toggleTeamChat()" title="Toggle Team Chat" style="border-color:var(--primary-glow); color:var(--primary); background:rgba(59,130,246,0.1); margin-right: 12px;">
+                    <i class="fa-solid fa-comments"></i>
+                </button>
+                <button class="run-btn" onclick="runCode()">
+                    <i class="fa-solid fa-play"></i> Run Code
+                </button>
+            </div>
+        </div>
+
+        <div class="editor-main-area">
+            <div class="editor-left-pane">
+                <div class="code-wrapper" id="codeWrapper">
+                    <div class="code-glow-line"></div>
+                    <div class="editor-inner">
+                        <div class="editor-viewport">
+                            <div id="code-editor" class="language-python"></div>
+                        </div>
+                    </div>
+                    <div class="editor-status-bar">
+                        <div class="status-item"><i class="fa-solid fa-code-branch"></i> main</div>
+                        <div class="status-item" id="cursor-pos">Ln 1, Col 1</div>
+                        <div class="status-item">UTF-8</div>
+                        <div class="status-item"><span class="status-dot"></span> Ready</div>
+                    </div>
+                </div>
+
+                <div class="console-panel">
+                    <div class="console-header">
+                        <span><i class="fa-solid fa-terminal" style="margin-right:8px; color:var(--secondary);"></i> Terminal</span>
+                        <span class="console-clear" onclick="clearConsole()"><i class="fa-solid fa-ban"></i> Clear</span>
+                    </div>
+                    <div class="console-body" id="consoleOutput">
+                        <div class="log-sys">nexgen-terminal:~$ ready for execution...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="team-chat-panel collapsed" id="teamChatPanel">
+                <div class="tc-header">
+                    <span><i class="fa-solid fa-users"></i> Team Chat</span>
+                    <div class="tc-status" title="Live"></div>
+                </div>
+                <div class="tc-body" id="tcBody">
+                    <div class="tc-msg tc-msg-remote">
+                        <span style="font-size:0.7em; font-weight:700; display:block; margin-bottom:4px; opacity:0.7;">Alex</span>
+                        Hey! I fixed the bug in line 15.
+                    </div>
+                    <div class="tc-msg tc-msg-remote">
+                        <span style="font-size:0.7em; font-weight:700; display:block; margin-bottom:4px; opacity:0.7;">Sarah</span>
+                        Nice. Can we test the new function now?
+                    </div>
+                </div>
+                <div class="tc-footer">
+                    <div class="tc-input-wrapper">
+                        <input type="text" class="tc-input" id="tcInput" placeholder="Message..." onkeypress="handleTeamChatEnter(event)">
+                        <button class="tc-send-btn" onclick="sendTeamMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="ai-widget" id="ai-widget">
+        <div class="ai-minimized" onclick="toggleChat()">
+            <span class="widget-status"></span>
+            <span>AI Assistant</span>
+        </div>
+        <div class="chat-interface">
+            <div class="chat-header">
+                <div class="ai-profile">
+                    <div class="ai-avatar-small"><i class="fa-solid fa-robot"></i></div>
+                    <span>NexGen Bot</span>
+                </div>
+                <button class="close-chat" onclick="toggleChat()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="chat-body" id="chat-box"></div>
+            <div class="chat-footer">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chat-input" placeholder="Ask about code..." onkeypress="handleEnter(event)">
+                    <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Libraries -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-c.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cpp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
+
+<!-- Main Module Script -->
+<script type="module" src="editor.js"></script>
+
+</body>
+</html>
