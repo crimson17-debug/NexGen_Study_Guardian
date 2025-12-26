@@ -192,7 +192,7 @@
     });
 
     /* --- 5. REAL GEMINI API CHATBOT LOGIC --- */
-    const apiKey = "AIzaSyCSk74KwiGihf0B7DkotyhcR5qCGtmKz-w"; // Set by environment
+    const apiKey = ""; // Set by environment
     const widget = document.getElementById('ai-widget');
     const chatBox = document.getElementById('chat-box');
     const chatInput = document.getElementById('chat-input');
