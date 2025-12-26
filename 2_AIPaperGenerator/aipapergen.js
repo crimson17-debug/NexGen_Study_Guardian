@@ -25,7 +25,7 @@ async function generateWithRetry(model, prompt) {
     throw new Error("Failed after 5 retries due to rate limits.");
 }
     // --- GOOGLE GEMINI API SETUP ---
-    const apiKey = "AIzaSyCSk74KwiGihf0B7DkotyhcR5qCGtmKz-w"; // The environment will provide this automatically in the preview.
+    const apiKey = ""; // The environment will provide this automatically in the preview.
 
     async function callGeminiAPI(prompt, systemInstruction = "") {
         // 1. Check if API Key is loaded
