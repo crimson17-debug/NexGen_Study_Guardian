@@ -108,4 +108,4 @@ Since this project is built with static technologies, no build step or backend s
 
 ---
 
-*Built with ❤️ by the NexGen Team -NAVYA MADE , SUJAL NEGI.*
+*Built with ❤️ by the 'NexGen' Team -NAVYA MADE , SUJAL NEGI.*
